@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Portrait Letter - Fixed Pocket</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #fdfaf5; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        /* --- Fullscreen Video Layer Section (Video Block) --- */
+        #video-layer {
+            position: fixed;
+            inset: 0;
+            background-color: #111111;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease;
+        }
+
+        #play-btn {
+            background-color: #cb9b51;
+            border: none;
+            color: white;
+            padding: 15px 35px;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(203, 155, 81, 0.4);
+            transition: transform 0.2s ease;
+        }
+
+        #play-btn:hover {
+            transform: scale(1.05);
+        }
+
+        #birthday-video {
+            display: none;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        /* --- End of Video Layer Section --- */
+
+        .outer-frame {
+            background-color: #ffffff; 
+            border: 4px solid #cb9b51; 
+            border-radius: 15px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            height: 85vh;
+            max-height: 700px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.05);
+        }
+
+        .sidebar-text {
+            position: absolute;
+            left: 25px;
+            top: 45px;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            color: #7a7a7a;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-text .date {
+            margin-top: 10px;
+            color: #aaa;
+            font-style: italic;
+            text-transform: none;
+            letter-spacing: 1px;
+        }
+
+        .envelope-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            perspective: 1200px;
+            margin-top: 40px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            background-color: #dfd3c3; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid #cfc0ad;
+            transform-origin: top;
+            transition: transform 0.4s ease 0.2s, z-index 0s ease 0.4s;
+            z-index: 4; 
+        }
+
+        .envelope-pocket {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
