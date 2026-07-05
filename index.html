@@ -23,46 +23,108 @@
             overflow: hidden;
         }
 
-        /* --- Fullscreen Video Layer Section (Video Block) --- */
-        #video-layer {
+        /* --- ১মে যে স্ক্রিনটি আসবে (Click Here to Open) --- */
+        .entry-screen {
             position: fixed;
-            inset: 0;
-            background-color: #111111;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 1s ease;
-        }
-
-        #play-btn {
-            background-color: #cb9b51;
-            border: none;
-            color: white;
-            padding: 15px 35px;
-            font-size: 14px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(203, 155, 81, 0.4);
-            transition: transform 0.2s ease;
-        }
-
-        #play-btn:hover {
-            transform: scale(1.05);
-        }
-
-        #birthday-video {
-            display: none;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            background-color: #fdfaf5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.5s ease;
         }
-        /* --- End of Video Layer Section --- */
 
+        .entry-btn {
+            background-color: transparent;
+            border: 2px solid #cb9b51;
+            color: #cb9b51;
+            padding: 15px 35px;
+            font-size: 14px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+            box-shadow: 0 10px 20px rgba(203, 155, 81, 0.15);
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .entry-btn:hover {
+            background-color: #cb9b51;
+            color: #ffffff;
+        }
+
+        /* --- ২য় স্ক্রিন: ভিডিও প্লেয়ার কন্টেইনার --- */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 90;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .video-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* iPhone 12 Pro Max স্ক্রিনে ভিডিওর রেশিও ঠিক রাখবে */
+        }
+
+        .skip-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            padding: 8px 18px;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            z-index: 95;
+            font-family: sans-serif;
+        }
+
+        /* --- ৩য় স্ক্রিন: মূল চিঠি অ্যাপ কন্টেইনার --- */
+        .app-container {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .app-container.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        /* --- আপনার দেওয়া অরিজিনাল সিএসএস কোড (অপরিবর্তিত) --- */
         .outer-frame {
             background-color: #ffffff; 
             border: 4px solid #cb9b51; 
@@ -138,3 +200,208 @@
             bottom: 0;
             left: 0;
             width: 0;
+            height: 0;
+            border-left: 140px solid #dfd3c3;
+            border-right: 140px solid #dfd3c3;
+            border-bottom: 90px solid #d5c8b5;
+            border-top: 90px solid transparent;
+            z-index: 3; 
+        }
+
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 10px;
+            width: 260px;
+            height: 165px;
+            background-color: #ffffff;
+            padding: 15px;
+            color: #333;
+            font-size: 11px;
+            line-height: 1.5;
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            transition: transform 0.5s ease 0s, height 0.5s ease 0s, z-index 0s ease 0.5s;
+            z-index: 2; 
+            overflow: hidden;
+            border: 1px solid #eaeaea;
+        }
+
+        .letter-title {
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            color: #111;
+        }
+
+        .envelope-text {
+            position: absolute;
+            right: 20px;
+            bottom: 15px;
+            font-family: 'Brush Script MT', cursive, sans-serif;
+            font-size: 18px;
+            color: #6e6151;
+            z-index: 5; 
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1; 
+            transition: transform 0.4s ease, z-index 0s ease 0.2s;
+        }
+
+        .envelope.open .letter {
+            transform: translateY(-110px); 
+            height: 230px; 
+            z-index: 5; 
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s, height 0.6s ease 0.3s, z-index 0s ease 0.3s;
+            box-shadow: 0 -10px 30px rgba(0,0,0,0.1);
+        }
+
+        .envelope.open .envelope-text {
+            opacity: 0;
+        }
+
+        .bottom-section {
+            text-align: center;
+            width: 100%;
+        }
+
+        .action-btn {
+            background-color: transparent;
+            border: 2px solid #cb9b51;
+            color: #cb9b51;
+            padding: 12px 28px;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            min-width: 180px;
+            font-weight: bold;
+        }
+
+        .action-btn:hover {
+            background-color: #cb9b51;
+            color: #ffffff;
+        }
+
+        .hint-text {
+            color: #999;
+            font-size: 10px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="entry-screen" id="entryScreen">
+        <button class="entry-btn" id="entryBtn">Click Here To Open</button>
+    </div>
+
+    <div class="video-container" id="videoContainer">
+        <button class="skip-btn" id="skipBtn">Skip Video</button>
+        <video id="birthdayVideo" playsinline preload="auto">
+            <source src="birthday_video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="app-container" id="appContainer">
+        <div class="outer-frame">
+            
+            <div class="sidebar-text">
+                Zaynab Roshni
+                <div class="date">July 05, 2026</div>
+            </div>
+
+            <div class="envelope-wrapper">
+                <div class="envelope" id="envelope">
+                    <div class="envelope-flap"></div>
+                    <div class="letter">
+                        <div class="letter-title">MY DEAR SISTER,</div>
+                        <p>Happy birthday to my sister and favorite notification!. Even though miles separate us and we connect across a screen, you truly feel like real to me. You're the one I trust, laugh with, and share all my random updates with. I hope your special day is filled with endless joy, and I honestly can’t wait for the day we finally get to meet in real life!. I pray your life is filled with joy, all your wishes come true, and you stay blessed and happy always. Have an amazing birthday, sis! 🎂✨</p>
+                    </div>
+                    <div class="envelope-pocket"></div>
+                    <div class="envelope-text">Your Brother</div>
+                </div>
+            </div>
+
+            <div class="bottom-section">
+                <button class="action-btn" id="actionBtn">Break Seal & Open</button>
+                <div class="hint-text" id="hintText">Click anywhere on the envelope or use the action button above</div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // স্ক্রিন ট্রানজিশন কন্ট্রোল এলিমেন্ট
+        const entryScreen = document.getElementById('entryScreen');
+        const entryBtn = document.getElementById('entryBtn');
+        const videoContainer = document.getElementById('videoContainer');
+        const birthdayVideo = document.getElementById('birthdayVideo');
+        const skipBtn = document.getElementById('skipBtn');
+        const appContainer = document.getElementById('appContainer');
+
+        // অরিজিনাল লেটার এলিমেন্ট
+        const envelope = document.getElementById('envelope');
+        const actionBtn = document.getElementById('actionBtn');
+        const hintText = document.getElementById('hintText');
+
+        // প্রথম ক্লিক: বাটন হাওয়া হবে এবং ভিডিও চালু হবে
+        entryBtn.addEventListener('click', () => {
+            entryScreen.style.opacity = '0';
+            setTimeout(() => {
+                entryScreen.style.display = 'none';
+                videoContainer.classList.add('active');
+                
+                // আইফোনে সাউন্ডসহ অটো-প্লে নিশ্চিত করার কোড
+                birthdayVideo.play().catch(error => {
+                    console.log("Autoplay context error: playing muted as fallback", error);
+                    birthdayVideo.muted = true;
+                    birthdayVideo.play();
+                });
+            }, 500);
+        });
+
+        // ভিডিও থেকে চিঠিতে যাওয়ার ফাংশন
+        function showLetter() {
+            birthdayVideo.pause();
+            videoContainer.classList.remove('active');
+            setTimeout(() => {
+                videoContainer.style.display = 'none';
+                appContainer.classList.add('visible');
+            }, 500);
+        }
+
+        // ভিডিও শেষ হলে অথবা স্কিপ বাটনে ক্লিক করলে চিঠি দেখাবে
+        birthdayVideo.addEventListener('ended', showLetter);
+        skipBtn.addEventListener('click', showLetter);
+
+        // --- আপনার অরিজিনাল খাম খোলার লজিক (অপরিবর্তিত) ---
+        function toggleEnvelope() {
+            envelope.classList.toggle('open');
+            
+            if (envelope.classList.contains('open')) {
+                actionBtn.textContent = 'Reseal & Pack';
+                hintText.textContent = 'Click the button or envelope to close it again';
+            } else {
+                actionBtn.textContent = 'Break Seal & Open';
+                hintText.textContent = 'Click anywhere on the envelope or use the action button above';
+            }
+        }
+
+        envelope.addEventListener('click', toggleEnvelope);
+        actionBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            toggleEnvelope();
+        });
+    </script>
+
+</body>
+</html>
